@@ -219,66 +219,6 @@ def supervisor_dashboard(request):
         "shift": shift
     })
 
-    # =========================
-    # AJAX REALTIME ENDPOINT
-    # =========================
-    if request.GET.get("ajax") == "1":
-
-        dashboard_data = {}
-
-        for sub in submissions:
-            key = f"{sub.line}_{sub.shift}"
-
-            if key not in dashboard_data:
-                dashboard_data[key] = {
-                    "hour_totals": [0]*11,
-                    "total": 0
-                }
-
-            hours = [
-                sub.hour1, sub.hour2, sub.hour3, sub.hour4, sub.hour5,
-                sub.hour6, sub.hour7, sub.hour8, sub.hour9, sub.hour10, sub.hour11
-            ]
-
-            for i in range(11):
-                dashboard_data[key]["hour_totals"][i] += hours[i] or 0
-
-            dashboard_data[key]["total"] += sub.total_output()
-
-        return JsonResponse({
-            "global_locked_hours": global_locked_hours,
-            "dashboard_data": dashboard_data
-        })
-
-    # =========================
-    # NORMAL PAGE LOAD
-    # =========================
-    dashboard_data = {}
-
-    for sub in submissions:
-        key = f"{sub.line}_{sub.shift}"
-        if key not in dashboard_data:
-            dashboard_data[key] = {"submissions": [], "hour_totals": [0]*11, "total": 0}
-
-        dashboard_data[key]["submissions"].append(sub)
-
-        hours = [
-            sub.hour1, sub.hour2, sub.hour3, sub.hour4, sub.hour5,
-            sub.hour6, sub.hour7, sub.hour8, sub.hour9, sub.hour10, sub.hour11
-        ]
-
-        for i in range(11):
-            dashboard_data[key]["hour_totals"][i] += hours[i] or 0
-
-        dashboard_data[key]["total"] += sub.total_output()
-
-    return render(request, "supervisor_dashboard.html", {
-        "dashboard_data": dashboard_data,
-        "today": today,
-        "hour_range": range(1, 12),
-        "shift": shift
-    })
-
 # -----------------------------
 # RESET SHIFT
 # -----------------------------
