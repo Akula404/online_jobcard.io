@@ -239,7 +239,7 @@ function fetchDashboard() {
 
     const shift = "{{ shift }}"; // Django template variable
 
-    fetch(`/jobcard/supervisor-dashboard/?ajax=1&shift=${shift}`)
+    fetch(`${window.location.pathname}?ajax=1&shift=${shift}`)
         .then(r => r.json())
         .then(data => {
 
