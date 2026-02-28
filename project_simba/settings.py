@@ -12,6 +12,9 @@ SECRET_KEY = os.environ.get(
 )
 
 DEBUG = True  # Set to False in production
+CSRF_TRUSTED_ORIGINS = ["https://digital-jobcard.onrender.com"]
+
+DEBUG = os.environ.get("RENDER") is None
 
 ALLOWED_HOSTS = [
     'digital-jobcard.onrender.com',
