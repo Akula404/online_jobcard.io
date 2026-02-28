@@ -264,6 +264,9 @@ def finalize_shift(request, line, shift):
 # -----------------------------
 # JOBCARD OPERATOR ENTRY
 # -----------------------------
+# -----------------------------
+# JOBCARD OPERATOR ENTRY (FIXED)
+# -----------------------------
 def jobcard_operator_entry(request):
     today = timezone.localdate()
     line = request.POST.get("line") or request.GET.get("line")
@@ -277,11 +280,25 @@ def jobcard_operator_entry(request):
     jobcard_date = today if shift.lower() == "day" else today - timedelta(days=1)
     jobcard, created = JobCard.objects.get_or_create(date=jobcard_date, line=line, shift=shift)
 
-    temp_data = TempSubmission.objects.filter(date=jobcard_date, line=line, shift__iexact=shift).first()
-    if temp_data:
-        for i in range(1, 12):
-            setattr(jobcard, f"hour{i}", getattr(temp_data, f"hour{i}", 0))
+    # -----------------------------
+    # ENSURE TEMP SUBMISSION EXISTS
+    # -----------------------------
+    temp_data, _ = TempSubmission.objects.get_or_create(
+        date=jobcard_date,
+        line=line,
+        shift=shift,
+        operator=None  # operator=None since this is aggregated for JobCard
+    )
 
+    # -----------------------------
+    # COPY HOURLY DATA
+    # -----------------------------
+    for i in range(1, 12):
+        setattr(jobcard, f"hour{i}", getattr(temp_data, f"hour{i}", 0))
+
+    # -----------------------------
+    # HANDLE FORM SUBMISSION
+    # -----------------------------
     if request.method == "POST":
         form = JobCardForm(request.POST, instance=jobcard)
         if form.is_valid():
