@@ -6,186 +6,277 @@
 <title>Supervisor Dashboard</title>
 
 <style>
+
+/* ------------------ GLOBAL ------------------ */
 body{
-    font-family:'Segoe UI',system-ui,sans-serif;
+    font-family:'Segoe UI',system-ui,-apple-system,BlinkMacSystemFont,sans-serif;
     margin:0;
-    background:linear-gradient(135deg,#e0f2fe,#dbeafe);
-    color:#1f2937;
+    background:linear-gradient(135deg,#f8fafc,#e2e8f0);
+    color:#0f172a;
 }
 
-.top-bar{
+.container{
+    width:95%;
+    max-width:1500px;
+    margin:auto;
+}
+
+/* ------------------ HEADER ------------------ */
+.header{
+    background:linear-gradient(90deg,#0f172a,#1e293b);
+    color:white;
+    padding:30px 40px;
+    border-radius:0 0 24px 24px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.15);
+}
+
+.header-top{
     display:flex;
-    justify-content:flex-end;
+    justify-content:space-between;
     align-items:center;
+    flex-wrap:wrap;
     gap:20px;
-    padding:20px 40px 0;
 }
 
-.top-bar select{
-    padding:10px 14px;
-    font-size:15px;
-    border-radius:12px;
-    border:1px solid #94a3b8;
-    cursor:pointer;
+.dashboard-title{
+    font-size:30px;
+    font-weight:700;
+    letter-spacing:.5px;
+}
+
+.dashboard-sub{
+    font-size:14px;
+    opacity:.7;
+    margin-top:4px;
+}
+
+/* ------------------ CONTROLS ------------------ */
+.control-group{
+    display:flex;
+    gap:16px;
+    align-items:center;
+    flex-wrap:wrap;
+}
+
+.control-card{
     background:white;
+    padding:14px 18px;
+    border-radius:14px;
+    box-shadow:0 8px 20px rgba(0,0,0,0.08);
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.control-card label{
     font-weight:600;
+    font-size:14px;
+    color:#334155;
+}
+
+select{
+    padding:8px 12px;
+    border-radius:10px;
+    border:1px solid #cbd5e1;
+    font-weight:600;
+    cursor:pointer;
+    background:#f8fafc;
     transition:.2s;
 }
-.top-bar select:hover{
+
+select:hover{
     border-color:#3b82f6;
-    box-shadow:0 4px 12px rgba(59,130,246,0.2);
+    box-shadow:0 0 0 3px rgba(59,130,246,0.15);
 }
 
+/* ------------------ RESET BUTTON ------------------ */
 .shift-reset-btn{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    background:linear-gradient(135deg,#ff416c,#ff4b2b);
+    background:linear-gradient(135deg,#ef4444,#dc2626);
     color:white;
     border:none;
-    padding:14px 24px;
-    font-size:15px;
+    padding:10px 18px;
+    font-size:14px;
     font-weight:700;
-    border-radius:14px;
+    border-radius:12px;
     cursor:pointer;
-    box-shadow:0 10px 25px rgba(0,0,0,0.15);
     transition:.25s;
+    letter-spacing:.3px;
 }
+
 .shift-reset-btn:hover{
     transform:translateY(-2px);
-    box-shadow:0 16px 35px rgba(0,0,0,0.25);
+    box-shadow:0 12px 25px rgba(220,38,38,0.35);
 }
 
-.page-title{
-    text-align:center;
-    padding:25px;
-    margin:0 0 25px;
-    font-size:32px;
-    font-weight:700;
-    background:linear-gradient(90deg,#1e3c72,#2a5298);
-    color:white;
-    border-radius:0 0 20px 20px;
-    letter-spacing:1px;
-}
-
+/* ------------------ LINE CARDS ------------------ */
 .line-card{
-    background:#fff;
-    border-radius:20px;
-    padding:30px;
-    margin:25px auto;
-    width:95%;
-    box-shadow:0 12px 28px rgba(0,0,0,0.08);
-    transition:.3s;
+    background:white;
+    border-radius:22px;
+    padding:28px;
+    margin:35px 0;
+    box-shadow:0 12px 30px rgba(15,23,42,0.08);
+    transition:.25s;
 }
+
 .line-card:hover{
-    transform:translateY(-3px);
-    box-shadow:0 18px 38px rgba(0,0,0,0.15);
+    transform:translateY(-4px);
+    box-shadow:0 18px 45px rgba(15,23,42,0.12);
 }
 
 .line-title{
-    margin:0 0 20px;
-    font-size:26px;
+    font-size:22px;
     font-weight:700;
-    background:linear-gradient(90deg,#4facfe,#00f2fe);
-    -webkit-background-clip:text;
-    -webkit-text-fill-color:transparent;
+    margin-bottom:20px;
+    color:#1e293b;
+    display:flex;
+    align-items:center;
+    gap:10px;
 }
 
+.line-title::before{
+    content:"";
+    width:6px;
+    height:22px;
+    background:linear-gradient(to bottom,#3b82f6,#0ea5e9);
+    border-radius:4px;
+}
+
+/* ------------------ TABLE ------------------ */
 .wrapper{
     overflow-x:auto;
 }
+
 table{
     width:100%;
-    border-collapse:collapse;
+    border-collapse:separate;
+    border-spacing:0;
     font-size:14px;
 }
-th,td{
-    padding:12px 8px;
-    text-align:center;
-}
+
 th{
     background:#1e293b;
     color:white;
-    letter-spacing:1px;
+    padding:12px 6px;
     font-weight:600;
 }
+
+th:first-child{
+    border-top-left-radius:12px;
+}
+
+th:last-child{
+    border-top-right-radius:12px;
+}
+
+td{
+    padding:12px 6px;
+    text-align:center;
+    background:#f8fafc;
+    border-bottom:1px solid #e2e8f0;
+}
+
 .label{
     text-align:left;
     font-weight:600;
+    color:#334155;
 }
+
 .total-value{
     font-weight:800;
     color:#0ea5e9;
+    font-size:15px;
 }
 
+.hour-cell.locked{
+    background:#fee2e2;
+    color:#b91c1c;
+    font-weight:700;
+}
+
+/* ------------------ LIVE DOT ------------------ */
 .live-dot{
-    width:10px;
-    height:10px;
+    width:8px;
+    height:8px;
     border-radius:50%;
     background:#10b981;
     display:inline-block;
     margin-right:6px;
-    animation:pulse 1s infinite;
+    animation:pulse 1.2s infinite;
 }
+
 @keyframes pulse{
 0%{transform:scale(1)}
-50%{transform:scale(1.3)}
+50%{transform:scale(1.4)}
 100%{transform:scale(1)}
 }
 
+/* ------------------ RESPONSIVE ------------------ */
 @media(max-width:768px){
-    .top-bar{
+    .header-top{
         flex-direction:column;
         align-items:flex-start;
     }
-    .line-card{
-        width:100%;
-        padding:20px;
-    }
 }
+
 </style>
 </head>
 <body>
 
-<div class="top-bar">
+<div class="header">
+    <div class="header-top container">
+        <div>
+            <div class="dashboard-title">Production Supervisor Dashboard</div>
+            <div class="dashboard-sub">Real-Time Monitoring — {{ today }}</div>
+        </div>
 
-<form method="get">
-<label style="font-weight:700;"><b>View Shift:</b></label>
-<select name="shift" onchange="this.form.submit()" style="font-weight:600;">
-<option value="Day" {% if shift == "Day" %}selected{% endif %}><b>Day</b></option>
-<option value="Night" {% if shift == "Night" %}selected{% endif %}><b>Night</b></option>
-</select>
-</form>
+        <div class="control-group">
 
-<form id="resetForm" method="post" action="{% url 'jobcard:reset_shift' %}" onsubmit="return confirmResetShift();">
-    {% csrf_token %}
-    <input type="hidden" name="shift" value="{{ shift }}">
-    <button type="submit" class="shift-reset-btn" style="font-weight:700;">⟳ Start {{ shift }} Shift</button>
-</form>
+            <!-- SHIFT SELECT -->
+            <form method="get" class="control-card">
+                <label>Shift</label>
+                <select name="shift" onchange="this.form.submit()">
+                    <option value="Day" {% if shift == "Day" %}selected{% endif %}>Day</option>
+                    <option value="Night" {% if shift == "Night" %}selected{% endif %}>Night</option>
+                </select>
+            </form>
 
-<script>
-function confirmResetShift(){
-    const shift = "{{ shift }}";
-    return confirm(`⚠️ Warning: You are about to start the ${shift} shift.\nAll current operator entries for this shift will be deleted and reset to zero.\nDo you want to continue?`);
-}
-</script>
+            <!-- RESET -->
+            <form id="resetForm" method="post" action="{% url 'jobcard:reset_shift' %}" onsubmit="return confirmResetShift();" class="control-card">
+                {% csrf_token %}
+                <input type="hidden" name="shift" value="{{ shift }}">
 
+                <label>Line</label>
+                <select name="line">
+                    <option value="">All</option>
+                    {% for l in dashboard_data.keys %}
+                        {% with line_name=l|cut:"_Day"|cut:"_Night" %}
+                            <option value="{{ line_name }}">{{ line_name }}</option>
+                        {% endwith %}
+                    {% endfor %}
+                </select>
+
+                <button type="submit" class="shift-reset-btn">
+                    Start {{ shift }} Shift
+                </button>
+            </form>
+
+        </div>
+    </div>
 </div>
 
-<h2 class="page-title">Supervisor Dashboard — {{ today }}</h2>
-
-<div id="dashboard-container">
+<div class="container">
 
 {% for key,data in dashboard_data.items %}
 <div class="line-card">
 
-<h3 class="line-title">{{ key|cut:"_Day"|cut:"_Night"|title }}</h3>
+<h3 class="line-title">
+    {{ key|cut:"_Day"|cut:"_Night"|title }}
+</h3>
 
-<div class="wrapper">
 <div class="wrapper">
 <table>
 <tr>
-<th>Hourly Updates</th>
+<th>Hourly Output</th>
 {% for i in hour_range %}
 <th>H{{i}}</th>
 {% endfor %}
@@ -193,7 +284,7 @@ function confirmResetShift(){
 </tr>
 
 <tr>
-<td class="label"><span class="live-dot"></span>Live Output</td>
+<td class="label"><span class="live-dot"></span>Live Production</td>
 
 {% for val in data.hour_totals %}
 <td class="hour-cell"
@@ -212,7 +303,6 @@ function confirmResetShift(){
 </table>
 </div>
 </div>
-</div>
 {% endfor %}
 
 </div>
@@ -220,30 +310,46 @@ function confirmResetShift(){
 <script>
 let refreshPaused = false;
 let idleTimer = null;
-let isFetching = false; // prevent overlapping requests
+let isFetching = false;
 
 function pauseRefresh() {
     refreshPaused = true;
     if (idleTimer) clearTimeout(idleTimer);
-    idleTimer = setTimeout(() => refreshPaused = false, 15000); // resume after 15s idle
+    idleTimer = setTimeout(() => refreshPaused = false, 15000);
 }
 
-// pause refresh on user activity
 ["focusin", "click", "keydown", "mousemove"].forEach(e => {
     document.addEventListener(e, pauseRefresh);
 });
 
+function confirmResetShift(){
+    const shift = "{{ shift }}";
+    const lineSelect = document.querySelector("#resetForm select[name='line']");
+    const line = lineSelect.value;
+
+    if(line){
+        return confirm(
+            `⚠️ You are starting the ${shift} shift for line ${line}.\n` +
+            `Current entries for this line will be cleared.\nProceed?`
+        );
+    } else {
+        return confirm(
+            `⚠️ You are starting the ${shift} shift.\n` +
+            `All entries for this shift will be reset.\nProceed?`
+        );
+    }
+}
+
 function fetchDashboard() {
-    if (refreshPaused || isFetching) return; // skip if paused or previous request ongoing
+    if (refreshPaused || isFetching) return;
     isFetching = true;
 
-    const shift = "{{ shift }}"; // Django template variable
+    const shift = "{{ shift }}";
 
     fetch(`${window.location.pathname}?ajax=1&shift=${shift}`)
         .then(r => r.json())
         .then(data => {
 
-            /* -------- LOCK HOURS -------- */
             if (data.global_locked_hours) {
                 document.querySelectorAll(".hour-cell").forEach(cell => {
                     const h = parseInt(cell.dataset.hour);
@@ -255,7 +361,6 @@ function fetchDashboard() {
                 });
             }
 
-            /* -------- UPDATE TOTALS -------- */
             if (data.dashboard_data) {
                 Object.entries(data.dashboard_data).forEach(([key, val]) => {
 
@@ -273,10 +378,9 @@ function fetchDashboard() {
 
         })
         .catch(err => console.error("Dashboard fetch error:", err))
-        .finally(() => isFetching = false); // reset fetch lock
+        .finally(() => isFetching = false);
 }
 
-// Poll every 5 seconds instead of 2
 setInterval(fetchDashboard, 3000);
 </script>
 

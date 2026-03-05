@@ -88,8 +88,8 @@ class JobCard(models.Model):
         ordering = ["-date", "line"]
         constraints = [
             models.UniqueConstraint(
-                fields=["date", "line", "shift"],
-                name="unique_jobcard_per_shift_line_date"
+                fields=["date", "line", "shift", "wo_number"],
+                name="unique_jobcard_per_workorder"
             )
         ]
         indexes = [
