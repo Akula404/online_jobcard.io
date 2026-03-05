@@ -141,12 +141,7 @@ function loadJobcard(){
     fetch(`/jobcard/get-jobcard/?line=${line}&shift=${shift}`)
     .then(res => res.json())
     .then(data => {
-
-
-        if(data.error){
-            alert(data.error);
-            return;
-        }
+        if(data.error){ alert(data.error); return; }
 
         // Hidden fields
         document.getElementById("id_line").value = line
@@ -158,15 +153,11 @@ function loadJobcard(){
         document.getElementById("id_product_name").value = data.product_name
         document.getElementById("id_target_quantity").value = data.target_quantity
 
-        // Operator / Supervisor names → READONLY
-        const operatorField = document.getElementById("id_operator_names")
-        const supervisorField = document.getElementById("id_supervisor_names")
-        operatorField.value = data.operator_names
-        supervisorField.value = data.supervisor_names
-        operatorField.readOnly = true
-        supervisorField.readOnly = true
+        // Operator / Supervisor
+        document.getElementById("id_operator_names").value = data.operator_names
+        document.getElementById("id_supervisor_names").value = data.supervisor_names
 
-        // Hourly data
+        // Hours → ensure IDs match
         data.hours.forEach((val,i)=>{
             const el = document.getElementById(`id_hour${i+1}`)
             if(el) el.value = val
